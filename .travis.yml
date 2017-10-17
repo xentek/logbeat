@@ -1,0 +1,11 @@
+dist: trusty
+language: go
+go:
+    - 1.9
+before_install: make init
+install: make init
+script: make ci
+notifications:
+    email:
+        on_success: never
+        on_failure: always

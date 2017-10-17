@@ -1,0 +1,11 @@
+package: github.com/macandmia/logbeat
+import:
+- package: github.com/sirupsen/logrus
+  version: ~1.0.0
+testImport:
+- package: github.com/jarcoal/httpmock
+  version: v1
+- package: github.com/stretchr/testify
+  version: ~1.1.4
+  subpackages:
+  - suite
