@@ -4,9 +4,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// LogbeatVersion is used to identify notifications sent by Logbeat.
 const LogbeatVersion string = "0.0.1"
 
-// OpbeatHook delivers logs to the Opbeat service.
+// LogbeatHook delivers logs to the Opbeat service.
 type LogbeatHook struct {
 	AppId       string
 	Opbeat      *OpbeatClient

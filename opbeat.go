@@ -73,6 +73,9 @@ func NewOpbeatPayload(entry *logrus.Entry) *OpbeatPayload {
 	}
 }
 
+// JSON returns the OpbeatPayload, seralized as JSON. It returns a
+// bytes.Buffer to satisfy the io.Reader interface required by
+// http.Request.
 func (payload *OpbeatPayload) JSON() (*bytes.Buffer, error) {
 	jsonPayload, err := json.Marshal(payload)
 	if err != nil {
@@ -81,6 +84,7 @@ func (payload *OpbeatPayload) JSON() (*bytes.Buffer, error) {
 	return bytes.NewBuffer(jsonPayload), nil
 }
 
+// NewOpbeatRequest creates an http.Request used to notify the Opbeat API.
 func (client *OpbeatClient) NewOpbeatRequest(json *bytes.Buffer) (*http.Request, error) {
 	req, err := http.NewRequest("POST", client.Endpoint, json)
 	if err != nil {
@@ -94,7 +98,7 @@ func (client *OpbeatClient) NewOpbeatRequest(json *bytes.Buffer) (*http.Request,
 	return req, nil
 }
 
-// NotifyOpbeat sends OpbeatPayload to Opbeat's API.
+// Notify sends a JSON encoded OpbeatPayload to Opbeat's API.
 func (client *OpbeatClient) Notify(entry *logrus.Entry) (*http.Response, error) {
 	payload := NewOpbeatPayload(entry)
 
@@ -111,7 +115,7 @@ func (client *OpbeatClient) Notify(entry *logrus.Entry) (*http.Response, error) 
 	return client.Http.Do(req)
 }
 
-// UserAgent to identify the LogbeatHook to Opbeat's API.
+// OpbeatUserAgent to identify the LogbeatHook to Opbeat's API.
 func OpbeatUserAgent() string {
 	return fmt.Sprintf("Logbeat/%s (+https://github.com/macandmia/logbeat)", LogbeatVersion)
 }
