@@ -1,7 +1,7 @@
 GLIDE := $(shell command -v glide 2> /dev/null)
 GOVERALLS := $(shell command -v goveralls 2> /dev/null)
 GOLINT := $(shell command -v golint 2> /dev/null)
-GEM := $(shell command -v golint 2> /dev/null)
+GEM := $(shell command -v gem 2> /dev/null)
 GCG := $(shell command -v github_changelog_generator 2> /dev/null)
 
 .PHONY: init deps test ci release
