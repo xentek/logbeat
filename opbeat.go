@@ -33,7 +33,7 @@ type OpbeatPayload struct {
 }
 
 // OpbeatExtra structures Logrus Fields for for Opbeat's API.
-type OpbeatExtra map[string]string
+type OpbeatExtra map[string]interface{}
 
 // NewOpbeatClient returns an OpbeatClient used for commnicating with Opbeat's API.
 func NewOpbeatClient(org, app, token string) *OpbeatClient {
@@ -58,7 +58,7 @@ func NewOpbeatClient(org, app, token string) *OpbeatClient {
 func NewOpbeatPayload(entry *logrus.Entry) *OpbeatPayload {
 	var extra = OpbeatExtra{}
 	for k, v := range entry.Data {
-		extra[k] = v.(string)
+		extra[k] = v
 	}
 
 	hostname, _ := os.Hostname()

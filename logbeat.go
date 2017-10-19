@@ -5,7 +5,7 @@ import (
 )
 
 // LogbeatVersion is used to identify notifications sent by Logbeat.
-const LogbeatVersion string = "0.0.1"
+const LogbeatVersion string = "0.0.2"
 
 // LogbeatHook delivers logs to the Opbeat service.
 type LogbeatHook struct {
