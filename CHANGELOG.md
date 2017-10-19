@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.0.2](https://github.com/macandmia/logbeat/releases/tag/v0.0.2) (2017-10-19)
+[Full Changelog](https://github.com/macandmia/logbeat/compare/v0.0.1...v0.0.2)
+
 ## [v0.0.1](https://github.com/macandmia/logbeat/releases/tag/v0.0.1) (2017-10-17)
 
 
