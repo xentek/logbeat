@@ -26,6 +26,8 @@ type LogbeatTestSuite struct {
 	Entry         *logrus.Entry
 	OpbeatHook    *LogbeatHook
 	OpbeatClient  *OpbeatClient
+	OpbeatExtra   OpbeatExtra
+	OpbeatMachine OpbeatMachine
 	OpbeatPayload *OpbeatPayload
 	OpbeatJSON    *bytes.Buffer
 	OpbeatRequest *http.Request
@@ -45,7 +47,7 @@ func (suite *LogbeatTestSuite) SetupTest() {
 	suite.Token = "TEST_TOKEN"
 
 	suite.Entry = &logrus.Entry{
-		Level:   logrus.ErrorLevel,
+		Level:   logrus.PanicLevel,
 		Message: "Example Logbeat Log Entry",
 		Data:    logrus.Fields{"example": "true"},
 		Time:    time.Date(1955, time.November, 05, 9, 11, 12, 13, time.UTC),
@@ -67,10 +69,16 @@ func (suite *LogbeatTestSuite) SetupTest() {
 
 	hostname, _ := os.Hostname()
 	suite.Hostname = hostname
+	suite.OpbeatMachine = NewOpbeatMachine()
+	suite.OpbeatExtra = NewOpbeatExtra(suite.Entry)
 }
 
 func (suite *LogbeatTestSuite) TestLogbeatHookType() {
 	suite.IsType(&LogbeatHook{}, suite.Hook, "expects an instance of LogbeatHook")
+}
+
+func (suite *LogbeatTestSuite) TestLogbeatHookInterface() {
+	suite.Implements((*logrus.Hook)(nil), new(LogbeatHook), "expects OpbeatHook to implment logrus.Hook interface")
 }
 
 func (suite *LogbeatTestSuite) TestNewOpbeatHook() {

@@ -26,13 +26,27 @@ func (suite *LogbeatTestSuite) TestNewOpbeatClient() {
 	suite.Equal(suite.OpbeatClient.Token, "TEST_TOKEN", "expects the correct Opbeat Token")
 }
 
+func (suite *LogbeatTestSuite) TestNewOpbeatMachine() {
+	suite.IsType(OpbeatMachine{}, NewOpbeatMachine(), "expects an instance of OpbeatMachine")
+	suite.Equal(suite.OpbeatMachine.Hostname, suite.Hostname, "expects the correct hostname")
+}
+
+func (suite *LogbeatTestSuite) TestNewOpbeatExtra() {
+	suite.IsType(OpbeatExtra{}, NewOpbeatExtra(suite.Entry), "expects an instance of OpbeatExtra")
+	suite.Equal(suite.OpbeatExtra["example"], suite.Entry.Data["example"], "expects OpbeatExtra to be the same as Log Entry Data")
+}
+
+func (suite *LogbeatTestSuite) TestOpbeatLevel() {
+	suite.Equal(OpbeatLevel(suite.Entry), "critical", "expects the correct OpbeatLevel")
+}
+
 func (suite *LogbeatTestSuite) TestNewOpbeatPayload() {
 	suite.IsType(&OpbeatPayload{}, suite.OpbeatPayload, "expects an instance of OpbeatPayload")
 	suite.IsType(OpbeatExtra{}, suite.OpbeatPayload.Extra, "expects an instance of OpbeatExtra")
 	suite.Equal(suite.OpbeatPayload.Extra["example"], suite.Entry.Data["example"], "expects OpbeatPayload Extra to be the same as Log Entry Data")
-	suite.Equal(suite.OpbeatPayload.Level, suite.Entry.Level.String(), "expects OpbeatPayload Message to be the same as Log Entry")
+	suite.Equal(suite.OpbeatPayload.Level, "critical", "expects OpbeatPayload Level to be correct")
 	suite.Contains(suite.OpbeatPayload.Logger, LogbeatVersion, "expects OpbeatPayload Logger to contain Logbeat Version")
-	suite.Equal(suite.OpbeatPayload.Machine, suite.Hostname, "expects OpbeatPayload Machine to be the Hostname")
+	suite.Equal(suite.OpbeatPayload.Machine, suite.OpbeatMachine, "expects OpbeatPayload Machine to be the OpbeatMachine")
 	suite.Equal(suite.OpbeatPayload.Message, suite.Entry.Message, "expects OpbeatPayload Message to be the same as Log Entry")
 	suite.Equal(suite.OpbeatPayload.Timestamp, suite.Entry.Time.Format(ISO8601), "expects OpbeatPayload Timestamp to be the same as Log Entry")
 }

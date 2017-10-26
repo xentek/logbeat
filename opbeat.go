@@ -24,16 +24,21 @@ type OpbeatClient struct {
 
 // OpbeatPayload structures log entries for Opbeat's API.
 type OpbeatPayload struct {
-	Extra     OpbeatExtra `json:"extra,omitempty"`
-	Level     string      `json:"level"`
-	Logger    string      `json:"logger"`
-	Machine   string      `json:"machine,omitempty"`
-	Message   string      `json:"message"`
-	Timestamp string      `json:"timestamp"`
+	Extra     OpbeatExtra   `json:"extra,omitempty"`
+	Level     string        `json:"level"`
+	Logger    string        `json:"logger"`
+	Machine   OpbeatMachine `json:"machine,omitempty"`
+	Message   string        `json:"message"`
+	Timestamp string        `json:"timestamp"`
 }
 
-// OpbeatExtra structures Logrus Fields for for Opbeat's API.
+// OpbeatExtra structures Logrus Fields for Opbeat's API.
 type OpbeatExtra map[string]interface{}
+
+// OpbeatMachine represents the hostname of the Machine the error occured on to Opbeat's API.
+type OpbeatMachine struct {
+	Hostname string `json:"hostname"`
+}
 
 // NewOpbeatClient returns an OpbeatClient used for commnicating with Opbeat's API.
 func NewOpbeatClient(org, app, token string) *OpbeatClient {
@@ -54,20 +59,42 @@ func NewOpbeatClient(org, app, token string) *OpbeatClient {
 	}
 }
 
-// NewOpbeatPayload returns an OpbeatPayload for the given log entry.
-func NewOpbeatPayload(entry *logrus.Entry) *OpbeatPayload {
+// NewOpbeatMachine returns an OpbeatMachine for the current machine.
+func NewOpbeatMachine() OpbeatMachine {
+	var machine = OpbeatMachine{}
+	hostname, err := os.Hostname()
+	if err != nil {
+		return machine
+	}
+	machine.Hostname = hostname
+	return machine
+}
+
+// OpbeatLevel returns the logrus.Level, as a string that Opbeat will accept, for the given logrus.Entry.
+func OpbeatLevel(entry *logrus.Entry) string {
+	level := entry.Level.String()
+	if level == "panic" {
+		level = "critical"
+	}
+	return level
+}
+
+// NewOpbeatExtra returns an OpbeatExtra for the given logrus.Entry.
+func NewOpbeatExtra(entry *logrus.Entry) OpbeatExtra {
 	var extra = OpbeatExtra{}
 	for k, v := range entry.Data {
 		extra[k] = v
 	}
+	return extra
+}
 
-	hostname, _ := os.Hostname()
-
+// NewOpbeatPayload returns an OpbeatPayload for the given logrus.Entry.
+func NewOpbeatPayload(entry *logrus.Entry) *OpbeatPayload {
 	return &OpbeatPayload{
-		Extra:     extra,
-		Level:     entry.Level.String(),
+		Extra:     NewOpbeatExtra(entry),
+		Level:     OpbeatLevel(entry),
 		Logger:    fmt.Sprintf("logbeat-%s", LogbeatVersion),
-		Machine:   hostname,
+		Machine:   NewOpbeatMachine(),
 		Message:   entry.Message,
 		Timestamp: entry.Time.UTC().Format(ISO8601),
 	}
