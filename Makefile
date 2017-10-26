@@ -44,13 +44,26 @@ ci: test
 	goveralls -service=travis-ci
 
 # release package
+#
+# Example:
+#
+# 	make V=v0.0.0 M='my release description' release
 release:
+ifndef V
+	@echo  "Missing Required Argument: V"
+	exit 1
+endif
+ifndef M
+	@echo  "Missing Required Argument: M"
+	exit 1
+endif
+
 	rm -f .git/RELEASE_EDITMSG
 	touch .git/RELEASE_EDITMSG
-	echo "${1}\n\n${@}" >> .git/RELEASE_EDITMSG
-	git tag -s ${1} -F .git/RELEASE_EDITMSG
+	echo "$(V)\n\n$(M)" >> .git/RELEASE_EDITMSG
+	git tag -s $(V) -F .git/RELEASE_EDITMSG
 	git push --tags
 	github_changelog_generator --issue-line-labels="ALL" --release-url="https://github.com/macandmia/logbeat/releases/tag/%s"
-	git commit CHANGELOG.md -m "updates changelog for ${1}"
+	git commit CHANGELOG.md -m "updates changelog for $(V)"
 	git push origin master
-	hub release create -f .git/RELEASE_EDITMSG ${1}
+	hub release create -f .git/RELEASE_EDITMSG $(V)
