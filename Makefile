@@ -63,7 +63,7 @@ endif
 	echo "$(V)\n\n$(M)" >> .git/RELEASE_EDITMSG
 	git tag -s $(V) -F .git/RELEASE_EDITMSG
 	git push --tags
-	github_changelog_generator --issue-line-labels="ALL" --release-url="https://github.com/macandmia/logbeat/releases/tag/%s"
+	github_changelog_generator --issue-line-labels="ALL" --release-url="https://github.com/xentek/logbeat/releases/tag/%s"
 	git commit CHANGELOG.md -m "updates changelog for $(V)"
 	git push origin master
 	hub release create -f .git/RELEASE_EDITMSG $(V)

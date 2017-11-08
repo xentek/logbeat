@@ -1,4 +1,4 @@
-# logbeat [![Build Status](https://travis-ci.org/macandmia/logbeat.svg?branch=master)](https://travis-ci.org/macandmia/logbeat) [![GoDoc](https://godoc.org/github.com/macandmia/logbeat?status.svg)](https://godoc.org/github.com/macandmia/logbeat) [![Go Report Card](https://goreportcard.com/badge/github.com/macandmia/logbeat)](https://goreportcard.com/report/github.com/macandmia/logbeat) [![Coverage Status](https://coveralls.io/repos/github/macandmia/logbeat/badge.svg)](https://coveralls.io/github/macandmia/logbeat) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/macandmia/logbeat/blob/master/LICENSE)
+# logbeat [![Build Status](https://travis-ci.org/xentek/logbeat.svg?branch=master)](https://travis-ci.org/xentek/logbeat) [![GoDoc](https://godoc.org/github.com/xentek/logbeat?status.svg)](https://godoc.org/github.com/xentek/logbeat) [![Go Report Card](https://goreportcard.com/badge/github.com/xentek/logbeat)](https://goreportcard.com/report/github.com/xentek/logbeat) [![Coverage Status](https://coveralls.io/repos/github/xentek/logbeat/badge.svg)](https://coveralls.io/github/xentek/logbeat) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/xentek/logbeat/blob/master/LICENSE)
 
 `logbeat` is a [Logrus](https://github.com/sirupsen/logrus) Hook to report errors to [Opbeat](https://opbeat.com/).
 
@@ -6,11 +6,11 @@
 
 ## Install
 
-    go get https://github.com/macandmia/logbeat
+    go get https://github.com/xentek/logbeat
 
 ## Import
 
-    import "github.com/macandmia/logbeat"
+    import "github.com/xentek/logbeat"
 
 ## Usage
 
@@ -21,7 +21,7 @@ import (
     "os"
 
     log "github.com/sirupsen/logrus"
-    logbeat "github.com/macandmia/logbeat"
+    logbeat "github.com/xentek/logbeat"
 )
 
 func init() {
@@ -42,5 +42,5 @@ Refer to our [Contributor's Guide](CONTRIBUTING.md) to learn how you can partici
 
 ## More Info
 
-  - [GoDoc](https://godoc.org/github.com/macandmia/logbeat)
-  - [Wiki](https://github.com/macandmia/logbeat/wiki)
+  - [GoDoc](https://godoc.org/github.com/xentek/logbeat)
+  - [Wiki](https://github.com/xentek/logbeat/wiki)

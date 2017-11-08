@@ -1,4 +1,4 @@
-package: github.com/macandmia/logbeat
+package: github.com/xentek/logbeat
 import:
 - package: github.com/sirupsen/logrus
   version: ~1.0.0

@@ -144,7 +144,7 @@ func (client *OpbeatClient) Notify(entry *logrus.Entry) (*http.Response, error) 
 
 // OpbeatUserAgent to identify the LogbeatHook to Opbeat's API.
 func OpbeatUserAgent() string {
-	return fmt.Sprintf("Logbeat/%s (+https://github.com/macandmia/logbeat)", LogbeatVersion)
+	return fmt.Sprintf("Logbeat/%s (+https://github.com/xentek/logbeat)", LogbeatVersion)
 }
 
 // OpbeatEndpoint returns a formatted URI to Opbeat's API.
